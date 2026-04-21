@@ -1,17 +1,7 @@
-//kullanıcı görev ekleyebilecek 
-// üzerine tıklayarak tamamlandı olarak işaretleyebilcek 
-// isterse sil butonuna baasarak görevi silebilecek bir yapılacaklar listesi tasarlayın
-
-//hmtldeki bir elemana erişim için document.getElementById(...);
-//event mantığı butona tıklayınca action : button.addEventListener("click".addTask);
-//dinamik eleman oluşturma : document.createElement("li");
-//listeye eleman ekleme list.appendChild(li);
-
 const input = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
 const list = document.getElementById("taskList");
 
-// Butona tıklanınca görev ekle
 button.addEventListener("click", addTask);
 
 function addTask() {
@@ -21,27 +11,39 @@ function addTask() {
         return;
     }
 
-    // li oluştur
     const li = document.createElement("li");
-    li.textContent = input.value;
 
-    // Tamamlandı işaretleme (tıklayınca)
-    li.addEventListener("click", function () {
-        li.classList.toggle("completed");
+    //  checkbox oluştur
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+
+    // görev yazısı
+    const span = document.createElement("span");
+    span.textContent = input.value;
+
+    // tik atılınca
+    checkbox.addEventListener("change", function () {
+        if (checkbox.checked) {
+            span.style.color = "green";
+        } else {
+            span.style.color = "black";
+        }
     });
 
-    // Sil butonu oluştur
+    // sil butonu
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Sil";
 
-    // Silme işlemi
-    deleteBtn.addEventListener("click", function (e) {
-        e.stopPropagation(); // li click çalışmasın
+    deleteBtn.addEventListener("click", function () {
         list.removeChild(li);
     });
 
+    // elemanları sırayla ekle
+    li.appendChild(checkbox);
+    li.appendChild(span);
     li.appendChild(deleteBtn);
+
     list.appendChild(li);
 
-    input.value = ""; // input temizle
+    input.value = "";
 }
